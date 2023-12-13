@@ -6,12 +6,16 @@ import SourceOutlinedIcon from '@mui/icons-material/SourceOutlined'
 import AnalyticsOutlinedIcon from '@mui/icons-material/AnalyticsOutlined'
 import { Link } from "react-router-dom"
 import { DASHBOARD_PATH, PRODUCT_PATH, REPORT_PATH, SETTING_PATH } from "../config/constants"
+import { useState } from "react"
 
 const SideNav = () => {
+
+    const [activeMenu, setActiveMenu] = useState('Dashboard');
     
     const { collapsed, toggleSidebar} = useProSidebar()
 
-    const handleMenuClick = () => {
+    const handleMenuClick = (menu:string) => {
+        setActiveMenu(menu)
         toggleSidebar();
     }
 
@@ -30,12 +34,15 @@ const SideNav = () => {
 
             <Menu
                 menuItemStyles={{
-                   
+                   button:({active}) =>{
+                      return{ backgroundColor: active ?'#EEEEEE':'transparent'}
+                   },
                 }}>
-                <MenuItem active={true} onClick={()=>handleMenuClick()} component={<Link to={DASHBOARD_PATH} />} icon={<DashboardOutlinedIcon />}> <Typography variant="body2">Dashboard</Typography> </MenuItem>
-                <MenuItem onClick={()=>handleMenuClick()} component={<Link to={PRODUCT_PATH} />} icon={<SourceOutlinedIcon />}> <Typography variant="body2">Product </Typography></MenuItem>
-                <MenuItem onClick={()=>handleMenuClick()} component={<Link to={REPORT_PATH} />} icon={<AnalyticsOutlinedIcon />}> <Typography variant="body2">Report </Typography></MenuItem>
-                <MenuItem onClick={()=>handleMenuClick()} component={<Link to={SETTING_PATH} />} icon={<StyleOutlinedIcon />}> <Typography variant="body2">Setting </Typography></MenuItem >
+                    
+                <MenuItem active={activeMenu === DASHBOARD_PATH} onClick={()=>handleMenuClick(DASHBOARD_PATH)} component={<Link to={DASHBOARD_PATH} />} icon={<DashboardOutlinedIcon />}> <Typography variant="body2">Dashboard</Typography> </MenuItem>
+                <MenuItem active={activeMenu === PRODUCT_PATH} onClick={()=>handleMenuClick(PRODUCT_PATH)} component={<Link to={PRODUCT_PATH} />} icon={<SourceOutlinedIcon />}> <Typography variant="body2">Product </Typography></MenuItem>
+                <MenuItem active={activeMenu === REPORT_PATH} onClick={()=>handleMenuClick(REPORT_PATH)} component={<Link to={REPORT_PATH} />} icon={<AnalyticsOutlinedIcon />}> <Typography variant="body2">Report </Typography></MenuItem>
+                <MenuItem active={activeMenu === SETTING_PATH} onClick={()=>handleMenuClick(SETTING_PATH)} component={<Link to={SETTING_PATH} />} icon={<StyleOutlinedIcon />}> <Typography variant="body2">Setting </Typography></MenuItem >
             </Menu >
         </Sidebar >
     )
