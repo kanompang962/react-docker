@@ -5,10 +5,15 @@ import StyleOutlinedIcon from '@mui/icons-material/StyleOutlined'
 import SourceOutlinedIcon from '@mui/icons-material/SourceOutlined'
 import AnalyticsOutlinedIcon from '@mui/icons-material/AnalyticsOutlined'
 import { Link } from "react-router-dom"
+import { DASHBOARD_PATH, PRODUCT_PATH, REPORT_PATH, SETTING_PATH } from "../config/constants"
 
 const SideNav = () => {
     
-    const { collapsed} = useProSidebar()
+    const { collapsed, toggleSidebar} = useProSidebar()
+
+    const handleMenuClick = () => {
+        toggleSidebar();
+    }
 
     return (
         <Sidebar
@@ -17,21 +22,20 @@ const SideNav = () => {
             backgroundColor={'white'}
         >
           
-            <Box sx={styles.avatarContainer} >
-            <Avatar sx={collapsed ?styles.avatarHidden :styles.avatar} alt="Masoud" src="/assets/profile.jpg" />
-            {!collapsed && 
-                <Typography variant="body2">Administrator</Typography>
-            }
+          <Box sx={styles.avatarContainer}>
+                <Avatar sx={styles.avatar} alt="Masoud" src="/assets/profile.jpeg" />
+                {!collapsed ? <Typography variant="body2" sx={styles.yourChannel}>Samit Koyom</Typography> : null }
+                {!collapsed ? <Typography variant="body2">Administrator</Typography> : null }
             </Box>
 
             <Menu
                 menuItemStyles={{
-
+                   
                 }}>
-                <MenuItem component={<Link to="/backend/dashboard" />} icon={<DashboardOutlinedIcon />}> <Typography variant="body2">Dashboard</Typography> </MenuItem>
-                <MenuItem component={<Link to="/backend/product" />} icon={<SourceOutlinedIcon />}> <Typography variant="body2">Product </Typography></MenuItem>
-                <MenuItem component={<Link to="/backend/report" />} icon={<AnalyticsOutlinedIcon />}> <Typography variant="body2">Report </Typography></MenuItem>
-                <MenuItem component={<Link to="/backend/setting" />} icon={<StyleOutlinedIcon />}> <Typography variant="body2">Setting </Typography></MenuItem >
+                <MenuItem active={true} onClick={()=>handleMenuClick()} component={<Link to={DASHBOARD_PATH} />} icon={<DashboardOutlinedIcon />}> <Typography variant="body2">Dashboard</Typography> </MenuItem>
+                <MenuItem onClick={()=>handleMenuClick()} component={<Link to={PRODUCT_PATH} />} icon={<SourceOutlinedIcon />}> <Typography variant="body2">Product </Typography></MenuItem>
+                <MenuItem onClick={()=>handleMenuClick()} component={<Link to={REPORT_PATH} />} icon={<AnalyticsOutlinedIcon />}> <Typography variant="body2">Report </Typography></MenuItem>
+                <MenuItem onClick={()=>handleMenuClick()} component={<Link to={SETTING_PATH} />} icon={<StyleOutlinedIcon />}> <Typography variant="body2">Setting </Typography></MenuItem >
             </Menu >
         </Sidebar >
     )
@@ -45,8 +49,8 @@ const styles = {
         my: 5
     },
     avatar: {
-        width: '90px',
-        height: '90px'
+        width: '40%',
+        height: 'auto'
     },
     avatarHidden: {
         width: '40px',
